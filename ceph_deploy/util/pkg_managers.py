@@ -164,3 +164,50 @@ def zypper_remove(conn, packages, *a, **kw):
         *a,
         **kw
     )
+
+def poldek(conn, packages, *a, **kw):
+    if isinstance(packages, str):
+        packages = [packages]
+    cmd = [
+        'poldek',
+        '--noask',
+        '--cmd',
+        'install',
+    ]
+    cmd.extend(packages)
+    return remoto.process.run(
+        conn,
+        cmd,
+        *a,
+        **kw
+    )
+
+
+def poldek_remove(conn, packages, *a, **kw):
+    if isinstance(packages, str):
+        packages = [packages]
+
+    cmd = [
+        'poldek',
+        '--noask',
+        'uninstall',
+    ]
+    cmd.extend(packages)
+
+    return remoto.process.run(
+        conn,
+        cmd,
+        *a,
+        **kw
+    )
+
+
+def poldek_update(conn):
+    cmd = [
+        'poldek',
+        '--upa',
+    ]
+    return remoto.process.run(
+        conn,
+        cmd,
+    )
