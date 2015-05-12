@@ -95,6 +95,16 @@ def create_rgw(distro, name, cluster, init):
             ],
             timeout=7
         )
+    elif init == 'systemd':
+        remoto.process.run(
+            conn,
+            [
+                'systemctl',
+                'start',
+                'ceph-radosgw@{name}'.format(name=name),
+            ],
+            timeout=7
+        )
     elif init == 'sysvinit':
         remoto.process.run(
             conn,

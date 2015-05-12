@@ -39,14 +39,24 @@ def enable_service(conn, service='ceph'):
     This function does not do any kind of detection.
     """
     if is_systemd(conn):
-        remoto.process.run(
-            conn,
-            [
-                'systemctl',
-                'enable',
-                'ceph',
-            ]
-        )
+        if conn.remote_module.path_exists('/lib/systemd/system/ceph.target'):
+            remoto.process.run(
+                conn,
+                [
+                    'systemctl',
+                    'enable',
+                    'ceph.target',
+                ]
+            )
+        else:
+            remoto.process.run(
+                conn,
+                [
+                    'systemctl',
+                    'enable',
+                    'ceph',
+                ]
+            )
     else:
         remoto.process.run(
             conn,

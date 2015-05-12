@@ -97,6 +97,16 @@ def create_mds(distro, name, cluster, init):
             ],
             timeout=7
         )
+    if init == 'systemd':
+        remoto.process.run(
+            conn,
+            [
+                'systemctl',
+                'start',
+                'ceph-mds@{name}.service'.format(name=name),
+            ],
+            timeout=7
+        )
     elif init == 'sysvinit':
         remoto.process.run(
             conn,

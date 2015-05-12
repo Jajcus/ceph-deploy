@@ -69,7 +69,7 @@ def install(args):
             distro.codename
         )
 
-        if distro.init == 'sysvinit' and args.cluster != 'ceph':
+        if distro.init in ('sysvinit', 'systemd') and args.cluster != 'ceph':
             LOG.error('refusing to install on host: %s, with custom cluster name: %s' % (
                     hostname,
                     args.cluster,

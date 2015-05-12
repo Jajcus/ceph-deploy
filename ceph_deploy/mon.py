@@ -331,7 +331,12 @@ def destroy_mon(conn, cluster, hostname):
                 'cluster={cluster}'.format(cluster=cluster),
                 'id={hostname}'.format(hostname=hostname),
             ]
-
+        elif conn.remote_module.path_exists(os.path.join(path, 'systemd')):
+            status_args = [
+                'systemctl',
+                'status',
+                'ceph-mon@{hostname}.service'.format(hostname=hostname),
+            ]
         elif conn.remote_module.path_exists(os.path.join(path, 'sysvinit')):
             status_args = [
                 'service',
@@ -569,7 +574,7 @@ def is_running(conn, args):
         args
     )
     result_string = ' '.join(stdout)
-    for run_check in [': running', ' start/running']:
+    for run_check in [': running', ' start/running', 'active (running)']:
         if run_check in result_string:
             return True
     return False
