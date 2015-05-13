@@ -190,7 +190,8 @@ def poldek_remove(conn, packages, *a, **kw):
     cmd = [
         'poldek',
         '--noask',
-        'uninstall',
+        '--cmd',
+        'uninstall'
     ]
     cmd.extend(packages)
 
